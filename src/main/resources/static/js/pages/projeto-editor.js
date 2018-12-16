@@ -1,3 +1,4 @@
+
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
@@ -261,14 +262,25 @@
                     selected : true
                   });
                   
-                  $('#dica-form-modal').openModal();
+                  $('#projeto-modal').openModal();
                   
                   var x = 0;
                   
                   $('#id').val(adata.data()[0][columnDefs[x++].name])
-                  $('#titulo').val(adata.data()[0][columnDefs[x++].name])
+                  $('#nome').val(adata.data()[0][columnDefs[x++].name])
+                  
+                  $('#idgerente').val(adata.data()[0][columnDefs[x++].name])
+                  
+                  $('#dataInicio').val(adata.data()[0][columnDefs[x++].name])
+                  $('#dataPrevisaoFim').val( adata.data()[0][columnDefs[x++].name] )
+                  $('#dataFim').val(adata.data()[0][columnDefs[x++].name])
                   $('#descricao').val(adata.data()[0][columnDefs[x++].name])
-                  $('#url').val(adata.data()[0][columnDefs[x++].name])
+                  $('#status').val(adata.data()[0][columnDefs[x++].name])
+                  $('#orcamento').val(adata.data()[0][columnDefs[x++].name])
+                  $('#risco').val(adata.data()[0][columnDefs[x++].name])
+                  
+                   dropDown()
+                 
                   $('#editing').val("true")	
                   Materialize.updateTextFields();
                 }, 
@@ -303,7 +315,7 @@
                        selected : true
                      });
                      
-                     dicaRemove( adata.data()[0][columnDefs[0].name] )
+                     projetoRemove( adata.data()[0][columnDefs[0].name] )
                 },
 
                 _deleteRow : function() {
@@ -345,8 +357,9 @@
                     var adata = dt.rows({
                       selected : true
                     });
-                	$('#dica-form-modal').openModal();
-                	$('#dica-form')[0].reset();
+                    dropDown()
+                	$('#projeto-modal').openModal();
+                	$('#projeto-form')[0].reset();
                 	$('#id').val("");
                 },
 

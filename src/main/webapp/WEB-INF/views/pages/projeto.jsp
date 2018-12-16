@@ -1,3 +1,4 @@
+
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -29,10 +30,10 @@
 					<div class="container">
 						<div class="row">
 							<div class="col s12 m12 l12">
-								<h5 class="breadcrumbs-title">${mainTitle}</h5>
+								<h5 class="breadcrumbs-title">${title}</h5>
 								<ol class="breadcrumb">
-									<li><a href="index.html">Dashboard</a></li>
-									<li class="active">${secondTitle}</li>
+									<li><a href="home">Home</a></li>
+									<li class="active">${subTitle}</li>
 								</ol>
 							</div>
 						</div>
@@ -46,16 +47,22 @@
 						<div class="divider"></div>
 						<!--DataTables example-->
 						<div id="table-datatables">
-							<h4 class="header">Tabela de Dicas</h4>
+							<h4 class="header">${tableTitle}</h4>
 							<div class="row">
 								<div class="col s12 ">
-									<table id="dica-table" class=" hoverable centered striped ">
+									<table id="${tableId}" class=" hoverable centered striped ">
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>Título</th>
+												<th>Nome</th>
+												<th>Gerente Responsável</th>
+												<th>Data de Início</th>
+												<th>Previsão de Término</th>
+												<th>Data Real de Término</th>
 												<th>Descrição</th>
-												<th>Url</th>
+												<th>Status</th>
+												<th>Orçamento Total</th>
+												<th>Risco</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -66,22 +73,40 @@
 						</div>
 
 						<input id="editing" class="hide" name="editing" type="text" value="false">
-
-						<div id="dica-form-modal" class="modal">
+						<div id="${modalId}" class="modal">
 							<div class="modal-content">
-								<h4>Cadastro</h4>
+								<h4>${modalTitle}</h4>
 								<div class="row">
-									<form class="col s12" id="dica-form">
+									<form class="col s12" id="${formId}">
 										<input type="hidden" name="id" id="id">
 										<div class="row modal-form-row">
 											<div class="input-field col s12">
-												<input id="titulo" type="text" class="required" name="titulo"> <label for="titulo">Título</label>
+												<input id="nome" type="text" class="required" name="nome"> <label for="nome">Nome</label>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="input-field col s12">
+												<label></label> <select id="idGerente" name="idGerente">
+												</select>
 											</div>
 										</div>
 
 										<div class="row modal-form-row">
 											<div class="input-field col s12">
-												<input id="url" type="text" class="required" name="url"> <label for="url">URL</label>
+												<input id="dataInicio" type="text" name="dataInicio"> <label for="dataInicio">Data de Início</label>
+											</div>
+										</div>
+
+										<div class="row modal-form-row">
+											<div class="input-field col s12">
+												<input id="dataPrevisaoFim" type="text" name="dataPrevisaoFim"> <label for="dataPrevisaoFim">Previsão de Término</label>
+											</div>
+										</div>
+
+										<div class="row modal-form-row">
+											<div class="input-field col s12">
+												<input id="dataFim" type="text" name="dataFim"> <label for="dataFim">Data Real de Término</label>
 											</div>
 										</div>
 
@@ -91,6 +116,15 @@
 												<label for="descricao" class="active">Descrição</label>
 											</div>
 										</div>
+
+										<div class="row modal-form-row">
+											<div class="input-field col s12">
+												<input id="orcamento" class="money" type="text" name="orcamento"> <label for="orcamento">Orçamento Total</label>
+											</div>
+										</div>
+										
+										<input id="status"  type="hidden" name="status">
+										<input id="risco" type="hidden" name="risco">
 
 										<div class="row">
 											<div class="input-field col s12">

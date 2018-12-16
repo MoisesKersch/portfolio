@@ -46,10 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
-
 		http.authorizeRequests().antMatchers("/resources/**", "/public/**", "/css/**").permitAll()
 				.antMatchers("/admin/**").hasRole("Administrator").and().authorizeRequests().anyRequest()
-				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
+				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/projeto", true)
 				.passwordParameter("senha").usernameParameter("login").permitAll().and().logout().and()
 				.exceptionHandling().accessDeniedPage("/login");
 

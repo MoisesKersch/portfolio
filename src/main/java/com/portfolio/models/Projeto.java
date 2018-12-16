@@ -13,22 +13,32 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 @Table(name = "projeto")
 @Entity
 public class Projeto
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "projeto_id")
 	private Long id;
 	
 	@NotNull
 	@Column(length = 200)
 	private String nome;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date dataInicio;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date dataPrevisaoFim;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date dataFim;
 	
 	@Column(length = 5000)
@@ -44,8 +54,8 @@ public class Projeto
 	
 	@ManyToOne
 	@NotNull
-    @JoinColumn
-    private Pessoa idgerente;
+	@JoinColumn(name = "pessoa_id")
+    private Pessoa idGerente;
 
 	public Long getId() {
 		return id;
@@ -119,11 +129,13 @@ public class Projeto
 		this.risco = risco;
 	}
 
-	public Pessoa getIdgerente() {
-		return idgerente;
+	public Pessoa getIdGerente()
+	{
+		return idGerente;
 	}
 
-	public void setIdgerente(Pessoa idgerente) {
-		this.idgerente = idgerente;
+	public void setIdGerente(Pessoa idGerente)
+	{
+		this.idGerente = idGerente;
 	}
 }

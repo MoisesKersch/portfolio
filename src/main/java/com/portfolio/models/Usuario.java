@@ -36,12 +36,7 @@ public class Usuario
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
-	
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@Fetch(value = FetchMode.SUBSELECT)
-//	@JoinTable(name = "usuario_endereco", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "endereco_id"))
-//	private List<Endereco> enderecos = new ArrayList<Endereco>();
-	
+
 	public Usuario()
 	{
 		

@@ -69,12 +69,19 @@
 	<!-- responsive table and scroller for datatable plugin jquery --> 
 <!-- 	<script type="text/javascript" src="/resources/js/plugins/data-tables/js/dataTables.responsive.js"></script> -->
 	<script type="text/javascript" src="/resources/js/plugins/data-tables/js/dataTables.scroller.js"></script>
+	
+	<script>
+			setInterval(function()
+			{ 
+			    $.ajax({
+			      type:"post",
+			      url:"changestatus"
+			    });
+			}, 5000);
+	</script>
+	
+	
   
-   
-
-   
-   
-   
    
 	
 		

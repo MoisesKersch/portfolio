@@ -15,7 +15,8 @@
 				</div>
 			</div>
 		</li>
-		<li class="bold"><a href="home" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Home </a></li>
+		<li class="bold"><a href="pessoa" class="waves-effect waves-cyan"><i class="mdi-social-person-add"></i> Cadastro de Pessoas </a></li>
+		<li class="bold"><a href="projeto" class="waves-effect waves-cyan"><i class="mdi-action-shop-two"></i> Cadastro de Projetos </a></li>
 	</ul>
 	<a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i class="mdi-navigation-menu"></i></a>
 </aside>

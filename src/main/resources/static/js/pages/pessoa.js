@@ -2,29 +2,20 @@ var table;
 var descTempt;
 
 $(document).ready(function() {
-	$("#dica-form").submit(function(event) {
-		event.preventDefault();
-		saveAnimal();
-	})
-
-	openTableAnimal()
-	dicaMask()
+	
+	openTable();
+	
+	$('#cpf').mask('000.000.000-00', {reverse: true});
+	$('#dataNascimento').mask('00/00/0000', {reverse: true});
 });
 
-function dicaMask() {
-	$('#peso').mask("#0,000", {
-		reverse : true
-	});
-	$('#dataNascimento').mask('00/00/0000');
-}
-
-function openTableAnimal() {
+function openTable() {
 	$
 			.ajax({
-				url : "getdicas",
+				url : "getpessoas",
 				success : function(obj) {
 					console.log(obj)
-					table = $('#dica-table')
+					table = $('#pessoa-table')
 							.DataTable(
 									{
 										"sPaginationType" : "full_numbers",
@@ -35,16 +26,21 @@ function openTableAnimal() {
 										deferRender: true,
 									    scrollY:     300,
 									    scroller:    true,
-										columns : [ {
-											data : "id"
-										}, {
-											data : "titulo"
-										}, {
-											data : "descricao"
-										},
-										 {
-											data : "url"
-										}],
+										columns : [	
+													{data : "id"}, 
+													{data : "nome"}, 
+													{data : "dataNascimento"},
+													{data : "cpf"},
+													{ data: "funcionario",
+									    				"mRender": function(data, type, full)
+									    				{
+									    					if (data != false && data != undefined && data != null)
+																return "Sim";
+									    					else	
+									    					return "Não";
+									    				}
+									    			}
+												],
 										dom : 'Bfrtip', // Needs button
 										// container
 										select : 'single',
@@ -74,60 +70,63 @@ function openTableAnimal() {
 											"visible" : false
 										}, ]
 									})
+									
 				}
 			})
 }
 
-function saveAnimal() {
-	if ($("#dica-form").valid()) {
+function save() 
+{
+	if ($("#pessoa-form").valid()) 
+	{
 		$
 				.ajax({
 					type : "POST",
-					data : $("#dica-form").serializeObject(),
-					url : "dica",
-					success : function(obj) {
-						console.log(obj)
-						if (obj != null && obj != undefined) {
-							$('#dica-form-modal').closeModal();
+					data : $("#pessoa-form").serializeObject(),
+					url : "pessoa",
+					success : function(obj) 
+					{
+						table.clear().rows.add(obj).draw();
+						
+						if (obj != null && obj != undefined) 
+						{
+							$('#pessoa-modal').closeModal();
 							if ($("#editing").val() == "false") 
 							{
-								table.row.add({
-									"id" : obj.id,
-									"titulo" : obj.titulo,
-									"descricao" : obj.descricao,
-									"url" : obj.url
-								}).draw();
 								swal("Sucesso!", "O registro foi salvo!",
 										"success");
 								$("#editing").val("false");
-							} else {
-								table.row({
-									selected : true
-								}).data({
-									"id" : obj.id,
-									"titulo" : obj.titulo,
-									"descricao" : obj.descricao,
-									"url" : obj.url
-								});
+								
+								return 0;
+							} 
+							else 
+							{
 								$("#editing").val("false");
 								swal("Sucesso!", "O registro foi atualizado!",
 										"success");
+								
+								return 0;
 							}
-						} else {
+						} 
+						else 
+						{
 							swal("Cancelado",
-									"O serviço não pode ser salvo no sistema",
+									"O registro não pode ser salvo no sistema",
 									"error");
+							return 0;
 						}
 					}
 				})
 	}
+	
+	return false;
 }
 
-function dicaRemove(id)
+function pessoaRemove(id)
 {
 	swal({
 		title: "Você tem certeza que deseja cancelar?",
-		text: "Não será possível recuperar esse serviço após o cancelamento!",
+		text: "Não será possível recuperar esse registro após o cancelamento!",
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: '#DD6B55',
@@ -143,7 +142,7 @@ function dicaRemove(id)
 			$.ajax({
 				type: "POST",
 				data:  {"id": id},
-				url: "dicaremove",
+				url: "pessoaremove",
 				success: function(obj)
 				{
 					if (obj)
@@ -165,17 +164,55 @@ function dicaRemove(id)
 	});
 }
 
-$("#dica-form").validate({
-	rules : {
-		sexo : "required"
+jQuery.validator.addMethod(
+		"validDate",
+		function(value, element) {
+		    return value.match(/(?:0[1-9]|[12][0-9]|3[01])\/(?:0[1-9]|1[0-2])\/(?:19|20\d{2})/);
+		},
+		"Please enter a valid date in the format DD/MM/YYYY"
+		);
+
+$("#pessoa-form").validate({
+	submitHandler: function(form) 
+	{
+	    save();
 	},
-	errorElement : 'div',
+	rules : {
+		cpf : {
+			required : false,
+			remote : {
+				url : "public/iscpfcnpjvalido",
+				type : "POST",
+				data : {
+					"entrada" : function() {
+						return $("#cpf").val()
+					}
+				},
+				dataFilter : function(response)
+				{
+					var response = jQuery.parseJSON(response);
+					currentMessage = response.Message;
+					
+					if (response) {
+						return true;
+					}
+					return false;
+				}
+			}
+		},
+		dataNascimento: {
+			validDate: true
+	    }
+	},
+	messages: {
+		cpf: "CPF inválido!"
+    },
+	errorElement : "div",
 	errorPlacement : function(error, element) {
-		var placement = $(element).data('error');
-		if (placement) {
-			$(placement).append(error)
-		} else {
-			error.insertAfter(element);
-		}
+		var er = error.insertAfter(element.next());
+
+		if (er == null)
+			er.insertAfter(element.next());
+
 	}
 });
