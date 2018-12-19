@@ -79,6 +79,6 @@ public class RegistroController extends SessaoInfo
 		}
 		// logar apos o registro
 		usuarioService.autoLogin(usuario.getLogin(), usuario.getSenha(), request);
-		return "redirect:/home";
+		return "redirect:/projeto";
 	}
 }

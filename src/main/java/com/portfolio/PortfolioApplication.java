@@ -9,12 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Controller
 public class PortfolioApplication extends WebMvcConfigurationSupport
 {
-//	@Override
-//	public void addViewControllers(ViewControllerRegistry registry)
-//	{
-//		registry.addViewController("/login").setViewName("login");
-//	}
-
 	public static void main(String[] args)
 	{
 		SpringApplication.run(PortfolioApplication.class, args);
